@@ -58,8 +58,8 @@ jobs:
             <div class="container">
                 <h1>💊 Türkiye Nöbetçi Eczaneler</h1>
                 <p>Uygulama başlatılıyor... Lütfen bekleyin.</p>
-                <p class="update">📅 Son güncelleme: '$(date +"%d.%m.%Y %H:%M")'</p>
-                <p class="acil">⚠️ Acil durumlarda 112'yi arayınız.</p>
+                <p class="update">📅 Son güncelleme: '"$(date +"%d.%m.%Y %H:%M")"'</p>
+                <p class="acil">⚠️ Acil durumlarda 112'\''yi arayınız.</p>
             </div>
         </body>
         </html>' > index.html

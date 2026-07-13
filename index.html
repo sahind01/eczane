@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Türkiye Nöbetçi Eczaneler</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f1f5f9; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #1e293b, #0f172a); padding: 25px 30px; text-align: center; color: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 1000; }
+        .header h1 { font-size: 2em; font-weight: 800; }
+        .header .subtitle { color: #94a3b8; margin-top: 5px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+        .arama-kutusu { 
+            width: 100%; max-width: 700px; margin: 0 auto 30px;
+            background: #fff; border-radius: 50px; padding: 5px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            display: flex;
+            transition: 0.3s;
+        }
+        .arama-kutusu:focus-within { box-shadow: 0 4px 30px rgba(59,130,246,0.3); }
+        .arama-kutusu input { 
+            flex: 1; padding: 16px 24px; border: none;
+            background: transparent; font-size: 1em;
+            font-family: 'Inter', sans-serif; outline: none;
+        }
+        .arama-kutusu button { 
+            padding: 14px 30px;
+            background: linear-gradient(135deg, #3B82F6, #2563EB);
+            color: #fff; border: none; border-radius: 50px;
+            font-weight: 700; cursor: pointer; transition: 0.3s;
+            font-family: 'Inter', sans-serif; font-size: 1em;
+            white-space: nowrap;
+        }
+        .arama-kutusu button:hover { 
+            transform: scale(1.02);
+            box-shadow: 0 4px 15px rgba(59,130,246,0.4);
+        }
+        .sonuclar { 
+            background: #fff; border-radius: 16px; padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            min-height: 400px;
+        }
+        .bos-mesaj { 
+            text-align: center; padding: 60px 20px; color: #94a3b8;
+        }
+        .bos-mesaj i { font-size: 4em; display: block; margin-bottom: 20px; opacity: 0.3; }
+        .bos-mesaj h3 { font-size: 1.5em; color: #1e293b; margin-bottom: 10px; }
+        .footer { text-align: center; padding: 30px 20px; color: #9ca3af; font-size: 0.8em; line-height: 1.8; }
+        .footer .acil { color: #dc2626; font-weight: 700; }
+        .yukleniyor { text-align: center; padding: 40px; }
+        .spinner { 
+            width: 50px; height: 50px; border: 4px solid #e2e8f0; 
+            border-top: 4px solid #3B82F6; border-radius: 50%; 
+            animation: spin 1s linear infinite; margin: 0 auto 20px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .hata { text-align: center; padding: 40px; color: #dc2626; }
+        .hata i { font-size: 3em; display: block; margin-bottom: 15px; }
+        @media (max-width: 600px) { 
+            .header h1 { font-size: 1.4em; }
+            .arama-kutusu { flex-direction: column; border-radius: 20px; padding: 10px; }
+            .arama-kutusu input { padding: 12px 16px; }
+            .arama-kutusu button { border-radius: 20px; padding: 12px; }
+            .sonuclar { padding: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>💊 Türkiye Nöbetçi Eczaneler</h1>
+        <div class="subtitle">🔍 İl veya ilçe adı yazın</div>
+    </div>
+    <div class="container">
+        <div class="arama-kutusu">
+            <input type="text" id="aramaInput" placeholder="🔍 İl veya ilçe adı yazın (örn: İstanbul, Kadıköy, Mardin...)" onkeypress="if(event.key==='Enter') aramaYap()">
+            <button onclick="aramaYap()"><i class="fas fa-search"></i> Ara</button>
+        </div>
+        <div class="sonuclar" id="sonuclar">
+            <div class="bos-mesaj">
+                <i class="fas fa-search"></i>
+                <h3>Nöbetçi Eczane Ara</h3>
+                <p>Yukarıdaki arama kutusuna il veya ilçe adı yazın.</p>
+                <p style="font-size: 0.85em; margin-top: 10px; color: #cbd5e1;">Örnek: İstanbul, Kadıköy, Ankara, Çankaya, İzmir, Mardin...</p>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <p>Veriler eczaneler.gen.tr üzerinden anlık olarak alınmaktadır.</p>
+        <p class="acil">⚠️ Acil durumlarda 112'yi arayınız.</p>
+        <p>📅 Son güncelleme: 13.07.2026 14:27</p>
+    </div>
+    <script>
+        function aramaYap() {
+            var input = document.getElementById('aramaInput');
+            var deger = input.value.trim();
+            if (!deger) {
+                document.getElementById('sonuclar').innerHTML = `
+                    <div class="bos-mesaj">
+                        <i class="fas fa-search"></i>
+                        <h3>Lütfen bir il veya ilçe adı yazın</h3>
+                        <p>Örnek: İstanbul, Kadıköy, Ankara, Çankaya, İzmir, Mardin...</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            document.getElementById('sonuclar').innerHTML = `
+                <div class="yukleniyor">
+                    <div class="spinner"></div>
+                    <p style="color: #64748b;">${deger} için aranıyor...</p>
+                </div>
+            `;
+            
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/ara', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onload = function() {
+                if (this.status == 200) {
+                    document.getElementById('sonuclar').innerHTML = this.responseText;
+                } else {
+                    document.getElementById('sonuclar').innerHTML = `
+                        <div class="hata">
+                            <i class="fas fa-exclamation-circle"></i>
+                            <h3>Bir hata oluştu</h3>
+                            <p>Lütfen tekrar deneyin.</p>
+                        </div>
+                    `;
+                }
+            };
+            xhr.send('q=' + encodeURIComponent(deger));
+        }
+    </script>
+</body>
+</html>

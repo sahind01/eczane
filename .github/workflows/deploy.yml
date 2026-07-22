@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main, master ]
   schedule:
-    - cron: '0 6 * * *'  # Her gün 09:00'da güncelle
+    - cron: '0 6 * * *'
   workflow_dispatch:
 
 jobs:
@@ -36,3 +36,5 @@ jobs:
         vercel-org-id: ${{ secrets.ORG_ID }}
         vercel-project-id: ${{ secrets.PROJECT_ID }}
         vercel-args: '--prod'
+      env:
+        ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true  # Node uyarısını geçmek için

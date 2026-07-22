@@ -1,14 +1,17 @@
-from flask import Flask, request, render_template_string
+from flask import Flask
 import sys
 import os
 
-# Ana uygulamayı import et
+# Ana dizini Python path'e ekle
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from eczane import app
 
-# Vercel için handler
-def handler(request, context):
-    return app(request, context)
+# eczane.py'deki app'i import et
+from eczane import app as flask_app
 
-# Vercel serverless için
-app = app
+# Vercel serverless için WSGI uyumluluğu
+# Flask uygulamasını doğrudan export et
+app = flask_app
+
+# Vercel serverless ortamı için
+if __name__ == "__main__":
+    app.run()
